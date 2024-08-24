@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFC Protected Page</title>
+    <style>
+        #content, #password-prompt, #access-denied {
+            display: none;
+        }
+        #access-denied {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>NFC Protected Page</h1>
+    <div id="content">
+        <p>Welcome! You have accessed this page via NFC.</p>
+    </div>
+    <div id="password-prompt">
+        <p>Please enter the password to access this page:</p>
+        <input type="password" id="password">
+        <button onclick="checkPassword()">Submit</button>
+    </div>
+    <div id="access-denied">
+        <p>Access Denied. Please scan the NFC tag to view this content.</p>
+    </div>
+    <script>
+        const correctPassword = "admin";
+        const urlParams = new URLSearchParams(window.location.search);
+        const nfcTagId = urlParams.get('nfc');
+
+        if (nfcTagId === '04:7E:B2:D5:5F:61:80') {
+            document.getElementById('content').style.display = 'block';
+        } else {
+            document.getElementById('password-prompt').style.display = 'block';
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            if (password === correctPassword) {
+                document.getElementById('content').style.display = 'block';
+                document.getElementById('password-prompt').style.display = 'none';
+            } else {
+                document.getElementById('access-denied').style.display = 'block';
+                document.getElementById('password-prompt').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
